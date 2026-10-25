@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: api-gateway
+
+server:
+  port: 8080
+
+  cloud:
+    gateway:
+      routes:
+        # Route 1: user service
+        - id: 1
+          uri: lb://demo
+          predicates:
+            - Path=/welcome/**
+
+        # Route 2: job service
+        - id: 2
+          uri: lb://greet
+          predicates:
+            - Path=/greet/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
